@@ -17,7 +17,7 @@ public class PathingScript : MonoBehaviour {
 	}
 
 	//Returns the shortest distance between two nodes - all edge weights are 1
-  private float dijkstra(Cube source, Cube destination)
+  private float dijkstra(Zone source, Zone destination)
   {
   	int numCubes = 20*20*20;
   	float[] distances = new float[numCubes];
