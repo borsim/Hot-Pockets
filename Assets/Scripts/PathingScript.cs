@@ -31,8 +31,6 @@ public class PathingScript : MonoBehaviour {
   	//This uses two new classes: DijkstraNode is simply a pair of identifier and distance
   	//DijkstraNodeComparator sorts DijkstraNodes by distance
   	//so that the priority queue always returns the closest node
-  	///////////////////////////TODO 
-  	//PriorityQueue<DijkstraNode> dijkstraNodes = new PriorityQueue<DijkstraNode>(20, new DijkstraNodeComparator());
   	List<DijkstraNode> dijkstraNodes = new List<DijkstraNode>();
   	//Start from the source node
   	DijkstraNode currentNode = dSource;
@@ -59,7 +57,7 @@ public class PathingScript : MonoBehaviour {
 
   				dijkstraNodes.Add(newDNode);
   			}
-  			else if (distances[newDNode.identifier] == -1) {
+  			else if (distances[newDNode.identifier] == Mathf.Infinity) {
   				distances[newDNode.identifier] = newDNode.distance;
   				dijkstraNodes.Add(newDNode);
   			}
@@ -77,7 +75,7 @@ public class PathingScript : MonoBehaviour {
   	return currentNode.distance;
   }
 
-  public class DijkstraNode {
+  public class DijkstraNode : System.IEquatable<DijkstraNode>{
 		public float distance;
 		public int identifier;
 
@@ -85,6 +83,10 @@ public class PathingScript : MonoBehaviour {
 			identifier = initIdentifier;
 			distance = 0.0f;
 		}
+		public bool Equals(DijkstraNode other) {
+        if (other == null) return false;
+        return (this.identifier.Equals(other.identifier));
+    }
 	}
 	public class Edge {
 		public float distance;
