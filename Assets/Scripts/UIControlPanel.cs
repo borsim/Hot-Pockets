@@ -19,7 +19,7 @@ public class UIControlPanel : MonoBehaviour {
 		WTDroneScript = WTDrone.GetComponent<Drone>() as Drone;
 		WODrone = GameObject.Find("NonThermalDrone");
 		WODroneScript = WODrone.GetComponent<Drone>() as Drone;
-		inputField = GameObject.Find("InputField").GetComponent(typeof(InputField)) as InputField;
+		inputField = GameObject.Find("NumberInput").GetComponent(typeof(InputField)) as InputField;
 		inputField.onEndEdit.AddListener(delegate {saveInput(inputField); });
 	}
 	

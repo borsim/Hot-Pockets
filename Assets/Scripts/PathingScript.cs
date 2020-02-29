@@ -50,13 +50,29 @@ public class PathingScript : MonoBehaviour {
   	while (currentNode.identifier != dDestination.identifier)
   	{
   		//Get all edges from the current node
-  		Edge[] newEdges = new Edge[26];
-  		////////////// TODO get current available edges
-  		// currentZone.getEdges();
+  		List<Edge> newEdges = new List<Edge>();
+      // Flatten 3d neighbour array to 1d
+      GameObject[,,] neigh = weather.zonesByID[currentNode.identifier].neighbours;
+      List<GameObject> flatNeigh = new List<GameObject>();
+      for (int j = 0; j < 3; j++) {
+        for (int k = 0; k < 3; k++) {
+          for (int l = 0; l < 3; l++) {
+            if (neigh[j,k,l]) {
+              flatNeigh.Add(neigh[j,k,l]);
+            }
+          }
+        }
+      }
+  		foreach (GameObject n in flatNeigh) {
+        Zone newZone = n.GetComponent<Zone>() as Zone;
+        float edgeCost = drone.edgeCost(weather.zonesByID[currentNode.identifier], weather.zonesByID[newZone.id]);
+        Edge newEdge = new Edge(currentNode.identifier, newZone.id, edgeCost);
+        newEdges.Add(newEdge);
+      }
   		//Convert edge destinations to DijkstraNodes with the updated distance
   		foreach (Edge e in newEdges) {
   			DijkstraNode newDNode = new DijkstraNode(e.endIdentifier);
-  			newDNode.distance = currentNode.distance + drone.edgeCost(weather.zonesByID[currentNode.identifier], weather.zonesByID[newDNode.identifier]);
+  			newDNode.distance = currentNode.distance + e.distance;
         newDNode.previousNode = currentNode;
 
   			//Check if node in question has already been added into the search tree with a

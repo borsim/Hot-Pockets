@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 public class Drone : MonoBehaviour
 {
-		private float maxSpeed = 10.0f;
+		private float maxSpeed = 20.0f;
 		private Vector3 gravity = new Vector3(0, -9.81f, 0);
 		private const float airResistance = 0.1f;
-		private const float droneWeight = 1.0f;
-		public const int startingZoneID = 123;
+		private const float droneWeight = 10.0f;
+		public const int startingZoneID = 7;
 		public const int baseDestinationZoneID = 567;
 
 
@@ -61,18 +61,20 @@ public class Drone : MonoBehaviour
   			// sum vectors, calculate thrust
   			Vector3 enginePowerExpended = dragForce + gravityForce + localWind() + localThermal();
 
-  			powerUsed = Time.deltaTime * enginePowerExpended.magnitude;
+  			powerUsed += Time.deltaTime * enginePowerExpended.magnitude;
   			upt.submitPowerUsage(powerUsed, usesThermals);
   			// rotate drone to show off
   			gameObject.transform.eulerAngles = -enginePowerExpended;
 
-  		}	
-    }
+  		}	else rb.velocity = new Vector3(0, 0, 0);
+    } 
+
     public void reset(int newDestID) {
     	currentStart = weather.zonesByID[startingZoneID];
     	gameObject.transform.position = currentStart.transform.position;
       path = pathingScript.getPathSequence(startingZoneID, newDestID);
       pathProgress = 0;
+      powerUsed = 0.0f;
       finished = true;
     }
     public void launch() {
