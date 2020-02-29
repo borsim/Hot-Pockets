@@ -12,9 +12,6 @@ public class UIControlPanel : MonoBehaviour {
 	private int currentDestinationID;
 	private InputField inputField;
 
-	//private Zone WTDroneStartPositionZone;
-	//private Zone WODroneStartPositionZone;
-	//private Zone currentDestinationZone;
 
 
 	void Start () {
@@ -26,7 +23,7 @@ public class UIControlPanel : MonoBehaviour {
 		inputField = GameObject.Find("InputField").GetComponent(typeof(InputField)) as InputField;
 		inputField.onEndEdit.AddListener(delegate {saveInput(inputField); });
 	}
-	//TODO read current destionation ID from UI
+	
 	public void resetDrone(bool thermals) {
 		if (thermals) {
 			WTDroneScript.reset(currentDestinationID);

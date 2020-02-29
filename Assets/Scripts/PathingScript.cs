@@ -5,11 +5,13 @@ using UnityEngine;
 public class PathingScript : MonoBehaviour {
 
   private Drone drone;
+  private Weather weather;
 
 
 	// Use this for initialization
 	void Start () {
 		drone = GameObject.Find("ThermalDrone").GetComponent<Drone>() as Drone;
+    weather = GameObject.Find("Weather").GetComponent<Weather>() as Weather;
 	}
 	
 	// Update is called once per frame
@@ -18,8 +20,8 @@ public class PathingScript : MonoBehaviour {
 	}
 
   public List<Zone> getPathSequence(int startZoneIdentifier, int endZoneIdentifier) {
-    Zone sourZone = zones[startZoneIdentifier];
-    Zone destZone = zones[endZoneIdentifier];
+    Zone sourZone = weather.zonesByID[startZoneIdentifier];
+    Zone destZone = weather.zonesByID[endZoneIdentifier];
     List<Zone> path = dijkstra(sourZone, destZone); 
 
     return path;
@@ -54,7 +56,7 @@ public class PathingScript : MonoBehaviour {
   		//Convert edge destinations to DijkstraNodes with the updated distance
   		foreach (Edge e in newEdges) {
   			DijkstraNode newDNode = new DijkstraNode(e.endIdentifier);
-  			newDNode.distance = currentNode.distance + drone.edgeCost(zones[currentNode.identifier], zones[newDNode.identifier]);
+  			newDNode.distance = currentNode.distance + drone.edgeCost(weather.zonesByID[currentNode.identifier], weather.zonesByID[newDNode.identifier]);
         newDNode.previousNode = currentNode;
 
   			//Check if node in question has already been added into the search tree with a
@@ -82,11 +84,11 @@ public class PathingScript : MonoBehaviour {
     List<Zone> shortestPath = new List<Zone>();
     DijkstraNode backwardsNode = currentNode;
     while (backwardsNode != dSource) {
-      shortestPath.Add(zones[backwardsNode.identifier]);
+      shortestPath.Add(weather.zonesByID[backwardsNode.identifier]);
       backwardsNode = backwardsNode.previousNode;
     }
-    List<Zone> revShortestPath = shortestPath.Reverse();
-  	return revShortestPath;
+    shortestPath.Reverse();
+  	return shortestPath;
   }
 
   public class DijkstraNode : System.IEquatable<DijkstraNode>{

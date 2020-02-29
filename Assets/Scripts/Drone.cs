@@ -21,6 +21,7 @@ public class Drone : MonoBehaviour
 		private List<Zone> path;
 		private int pathProgress;
 		private UIPowerTracker upt;
+		private Weather weather;
 
 
     void Start() {
@@ -28,8 +29,9 @@ public class Drone : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>() as Rigidbody;
         finished = false;
         upt = GameObject.Find("Canvas").GetComponent<UIPowerTracker>() as UIPowerTracker;
+        weather = GameObject.Find("Weather").GetComponent<Weather>() as Weather;
         pathingScript = gameObject.GetComponent<PathingScript>() as PathingScript;
-        currentStart = zones[startingZoneID];
+        currentStart = weather.zonesByID[startingZoneID];
         path = pathingScript.getPathSequence(startingZoneID, 567);
         pathProgress = 0;
     }
@@ -67,7 +69,7 @@ public class Drone : MonoBehaviour
   		}	
     }
     public void reset(int newDestID) {
-    	currentStart = zones[startingZoneID];
+    	currentStart = weather.zonesByID[startingZoneID];
     	gameObject.transform.position = currentStart.transform.position;
       path = pathingScript.getPathSequence(startingZoneID, newDestID);
       pathProgress = 0;

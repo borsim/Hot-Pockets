@@ -9,6 +9,7 @@ public class Weather : MonoBehaviour
     public static int dimZ = 15;
     public GameObject zone;
     public GameObject[,,] zones = new GameObject[dimX, dimY, dimZ];
+    public Zone[] zonesByID = new Zone[dimX * dimY * dimZ];
     public GameObject[] sources = new GameObject[3];
 
     // Start is called before the first frame update
@@ -20,6 +21,7 @@ public class Weather : MonoBehaviour
                 for (int k = 0; k < dimZ; k++){
                     zones[i, j, k] = Instantiate(zone, new Vector3(i, j, k), Quaternion.identity);
                     zones[i, j, k].GetComponent<Zone>().assignId(id);
+                    zonesByID[id] = zones[i, j ,k].GetComponent<Zone>();
                     id++;
                 }
             }
