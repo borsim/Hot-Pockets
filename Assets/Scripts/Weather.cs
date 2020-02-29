@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Weather : MonoBehaviour
 {
-    public static int dimX = 3;
-    public static int dimY = 3;
-    public static int dimZ = 3;
+    public static int dimX = 10;
+    public static int dimY = 10;
+    public static int dimZ = 10;
 
     public GameObject cube;
     public GameObject[,,] cubes = new GameObject[dimX, dimY, dimZ];
+    public GameObject[] sources = new GameObject[3];
 
     // Start is called before the first frame update
     void Start()
@@ -28,9 +29,9 @@ public class Weather : MonoBehaviour
         for (int n = 0; n < dimX * dimY * dimZ; n++)
         {
             int index = 0;
-            int a = (n / 9) % 3;
-            int b = (n / 3) % 3;
-            int c = n % 3;
+            int a = (n / (dimX*dimY)) % dimX;
+            int b = (n / dimY) % dimY;
+            int c = n % dimZ;
             GameObject current = cubes[a, b, c];
             for (int i = a-1; i < a+2; i++)
             {
@@ -55,27 +56,45 @@ public class Weather : MonoBehaviour
             }
         }
 
-        GameObject centre = cubes[1, 1, 1];
-        for (int i = 0; i < dimX; i++)
-        {
-            for (int j = 0; j < dimX; j++)
-            {
-                for (int k = 0; k < dimX; k++)
-                {
-                    GameObject neighbour = centre.GetComponent<Zone>().neighbours[i, j, k];
-                    if (neighbour != null)
-                    {
-                        int neighbourId = neighbour.GetComponent<Zone>().id;
-                        Debug.Log(neighbourId);
-                    }
-                }
-            }
-        }
+        generateHeat();
+        spreadHeat();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    void generateHeat()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            int x = Random.Range(0, dimX);
+            int y = Random.Range(0, dimY);
+            int z = Random.Range(0, dimZ);
+            cubes[x, y, z].GetComponent<Zone>().temperature = 40;
+            sources[i] = cubes[x, y, z];
+        }
+    }
+
+    void spreadHeat()
+    {
+        foreach (GameObject source in sources)
+        {
+            source.GetComponent<Zone>().spreadHeat();
+        }
+
+        for (int i = 0; i < dimX; i++)
+        {
+            for (int j = 0; j < dimY; j++)
+            {
+                for (int k = 0; k < dimZ; k++)
+                {
+                    cubes[i, j, k].GetComponent<Zone>().finaliseHeat();
+                    cubes[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+                }
+            }
+        }
     }
 }
