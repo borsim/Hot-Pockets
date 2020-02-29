@@ -9,7 +9,7 @@ public class UIControlPanel : MonoBehaviour {
 	private Drone WTDroneScript;
 	private GameObject WODrone;
 	private Drone WODroneScript;
-	private int currentDestinationID;
+	private int currentDestinationID = Drone.baseDestinationZoneID;
 	private InputField inputField;
 
 
@@ -19,7 +19,6 @@ public class UIControlPanel : MonoBehaviour {
 		WTDroneScript = WTDrone.GetComponent<Drone>() as Drone;
 		WODrone = GameObject.Find("NonThermalDrone");
 		WODroneScript = WODrone.GetComponent<Drone>() as Drone;
-		currentDestinationID = 567;
 		inputField = GameObject.Find("InputField").GetComponent(typeof(InputField)) as InputField;
 		inputField.onEndEdit.AddListener(delegate {saveInput(inputField); });
 	}

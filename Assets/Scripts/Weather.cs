@@ -12,8 +12,7 @@ public class Weather : MonoBehaviour
     public Zone[] zonesByID = new Zone[dimX * dimY * dimZ];
     public GameObject[] sources = new GameObject[3];
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         int id = 0;
         for (int i = 0; i < dimX; i++){

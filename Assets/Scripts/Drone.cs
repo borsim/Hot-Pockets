@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 public class Drone : MonoBehaviour
 {
-		private float enginePower = 1.0f;
 		private float maxSpeed = 10.0f;
 		private Vector3 gravity = new Vector3(0, -9.81f, 0);
 		private const float airResistance = 0.1f;
 		private const float droneWeight = 1.0f;
 		public const int startingZoneID = 123;
+		public const int baseDestinationZoneID = 567;
 
 
 		public bool usesThermals = true;
@@ -16,7 +16,7 @@ public class Drone : MonoBehaviour
 		private Zone currentStart;
 		private Zone currentEnd;
 		private Rigidbody rb;
-		private bool finished;
+		private bool finished = true;
 		private  PathingScript pathingScript;
 		private List<Zone> path;
 		private int pathProgress;
@@ -27,17 +27,17 @@ public class Drone : MonoBehaviour
     void Start() {
         powerUsed = 0.0f;
         rb = gameObject.GetComponent<Rigidbody>() as Rigidbody;
-        finished = false;
+        finished = true;
         upt = GameObject.Find("Canvas").GetComponent<UIPowerTracker>() as UIPowerTracker;
         weather = GameObject.Find("Weather").GetComponent<Weather>() as Weather;
         pathingScript = gameObject.GetComponent<PathingScript>() as PathingScript;
         currentStart = weather.zonesByID[startingZoneID];
-        path = pathingScript.getPathSequence(startingZoneID, 567);
+        currentEnd = weather.zonesByID[baseDestinationZoneID];
+        path = new List<Zone>();
         pathProgress = 0;
     }
 
     void Update() {
-
     	Vector3 movementNormal = Vector3.Normalize(currentEnd.transform.position - currentStart.transform.position);
     	Vector3 positionNormal = Vector3.Normalize(gameObject.transform.position - currentEnd.transform.position);
     	bool nextZone = (movementNormal == positionNormal);
