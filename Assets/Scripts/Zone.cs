@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class Zone : MonoBehaviour
 {
-<<<<<<< HEAD
     public Vector3 thermal = new Vector3(0, 0, 0);
     public Vector3 wind = new Vector3(0, 0, 0);
-=======
     public float temperature { get; set; } = 0;
-    public Vector3 thermal = new Vector3(0, 0, 0);
-    public Vector3 wind = new Vector3(0, 0, 0);
     public float tempTemperature = 0;
->>>>>>> 1fde4fd2b62bb0a46393e2fd44f720ca6bd3391f
     public GameObject[,,] neighbours = new GameObject[3, 3, 3];
     public int id;
 
