@@ -92,7 +92,7 @@ public class Weather : MonoBehaviour
                 for (int k = 0; k < dimZ; k++)
                 {
                     cubes[i, j, k].GetComponent<Zone>().finaliseHeat();
-                    cubes[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+                    cubes[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(1.0f, 0f, 0f, 0f + cubes[i, j, k].GetComponent<Zone>().temperature);
                 }
             }
         }

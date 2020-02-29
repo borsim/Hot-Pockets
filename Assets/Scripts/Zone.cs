@@ -35,22 +35,22 @@ public class Zone : MonoBehaviour
     public void spreadHeat()
     {
         float l0 = temperature * 0.1f;
-        float[] levels = {temperature * 0.025f, temperature * 0.0185f, temperature * 0.005f};
+        float[] levels = {temperature * 0.005f, temperature * 0.0185f, temperature * 0.025f};
         float l4 = temperature * 0.01f;
 
-        neighbours[(10 / 9) % 3, (10 / 3) % 3, 10 % 3].GetComponent<Zone>().addHeat(l0);
-        neighbours[(16 / 9) % 3, (16 / 3) % 3, 16 % 3].GetComponent<Zone>().addHeat(l4);
+        if (neighbours[(10 / 9) % 3, (10 / 3) % 3, 10 % 3] != null) neighbours[(10 / 9) % 3, (10 / 3) % 3, 10 % 3].GetComponent<Zone>().addHeat(l4);
+        if (neighbours[(16 / 9) % 3, (16 / 3) % 3, 16 % 3] != null) neighbours[(16 / 9) % 3, (16 / 3) % 3, 16 % 3].GetComponent<Zone>().addHeat(l0);
         for (int i = 0; i < 7; i += 3)
         {
             float level = levels[i / 3];
-            neighbours[(i / 9) % 3, (i / 3) % 3, i % 3].GetComponent<Zone>().addHeat(level);
-            neighbours[((i + 1) / 9) % 3, ((i + 1) / 3) % 3, (i + 1) % 3].GetComponent<Zone>().addHeat(level);
-            neighbours[((i + 2) / 9) % 3, ((i + 2) / 3) % 3, (i + 2) % 3].GetComponent<Zone>().addHeat(level);
-            neighbours[((i + 9) / 9) % 3, ((i + 9) / 3) % 3, (i + 9) % 3].GetComponent<Zone>().addHeat(level);
-            neighbours[((i + 11) / 9) % 3, ((i + 11) / 3) % 3, (i + 11) % 3].GetComponent<Zone>().addHeat(level);
-            neighbours[((i + 18) / 9) % 3, ((i + 18) / 3) % 3, (i + 18) % 3].GetComponent<Zone>().addHeat(level);
-            neighbours[((i + 19) / 9) % 3, ((i + 19) / 3) % 3, (i + 19) % 3].GetComponent<Zone>().addHeat(level);
-            neighbours[((i + 20) / 9) % 3, ((i + 20) / 3) % 3, (i + 20) % 3].GetComponent<Zone>().addHeat(level);
+            if (neighbours[(i / 9) % 3, (i / 3) % 3, i % 3] != null) neighbours[(i / 9) % 3, (i / 3) % 3, i % 3].GetComponent<Zone>().addHeat(level);
+            if (neighbours[((i + 1) / 9) % 3, ((i + 1) / 3) % 3, (i + 1) % 3] != null) neighbours[((i + 1) / 9) % 3, ((i + 1) / 3) % 3, (i + 1) % 3].GetComponent<Zone>().addHeat(level);
+            if (neighbours[((i + 2) / 9) % 3, ((i + 2) / 3) % 3, (i + 2) % 3] != null) neighbours[((i + 2) / 9) % 3, ((i + 2) / 3) % 3, (i + 2) % 3].GetComponent<Zone>().addHeat(level);
+            if (neighbours[((i + 9) / 9) % 3, ((i + 9) / 3) % 3, (i + 9) % 3] != null) neighbours[((i + 9) / 9) % 3, ((i + 9) / 3) % 3, (i + 9) % 3].GetComponent<Zone>().addHeat(level);
+            if (neighbours[((i + 11) / 9) % 3, ((i + 11) / 3) % 3, (i + 11) % 3] != null) neighbours[((i + 11) / 9) % 3, ((i + 11) / 3) % 3, (i + 11) % 3].GetComponent<Zone>().addHeat(level);
+            if (neighbours[((i + 18) / 9) % 3, ((i + 18) / 3) % 3, (i + 18) % 3] != null) neighbours[((i + 18) / 9) % 3, ((i + 18) / 3) % 3, (i + 18) % 3].GetComponent<Zone>().addHeat(level);
+            if (neighbours[((i + 19) / 9) % 3, ((i + 19) / 3) % 3, (i + 19) % 3] != null) neighbours[((i + 19) / 9) % 3, ((i + 19) / 3) % 3, (i + 19) % 3].GetComponent<Zone>().addHeat(level);
+            if (neighbours[((i + 20) / 9) % 3, ((i + 20) / 3) % 3, (i + 20) % 3] != null) neighbours[((i + 20) / 9) % 3, ((i + 20) / 3) % 3, (i + 20) % 3].GetComponent<Zone>().addHeat(level);
         }
     }
 
