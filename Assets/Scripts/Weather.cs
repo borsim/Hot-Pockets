@@ -68,6 +68,7 @@ public class Weather : MonoBehaviour
         {
             spreadHeat();
             spreadWind();
+            counter = 0;
         }
         counter++;
     }
@@ -163,20 +164,19 @@ public class Weather : MonoBehaviour
                 for (int k = 0; k < dimZ; k++)
                 {
                     zones[i, j, k].GetComponent<Zone>().finaliseWind();
-                    float alpha = Mathf.Abs(zones[i, j, k].GetComponent<Zone>().wind.x);
-                    if(alpha > 0.5f)
-                    {
-                        alpha = 0.5f;
-                    }
-                    else if(alpha == 0.0f)
-                    {
-                        alpha = Mathf.Abs(zones[i, j, k].GetComponent<Zone>().wind.z);
+                    if (zones[i, j, k].GetComponent<MeshRenderer>().material.color.a < 0.2f) {
+                        float alpha = Mathf.Abs(zones[i, j, k].GetComponent<Zone>().wind.x);
+                        if (alpha == 0.0f)
+                        {
+                            alpha = Mathf.Abs(zones[i, j, k].GetComponent<Zone>().wind.z);
+                        }
+
                         if (alpha > 0.5f)
                         {
                             alpha = 0.5f;
                         }
+                        if (zones[i, j, k].GetComponent<Zone>().wind != new Vector3(0, 0, 0)) zones[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, 1.0f, alpha);
                     }
-                    if (zones[i, j, k].GetComponent<Zone>().wind != new Vector3(0, 0, 0)) zones[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, 1.0f, alpha);
                 }
             }
         }
