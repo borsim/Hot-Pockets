@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cube : MonoBehaviour
+public class Zone : MonoBehaviour
 {
     private Vector3 thermal = new Vector3(0, 0, 0);
     private Vector3 wind = new Vector3(0, 0, 0);
+    public GameObject[,,] neighbours = new GameObject[3, 3, 3];
+    public int id;
 
     // Start is called before the first frame update
     void Start()
@@ -17,5 +19,15 @@ public class Cube : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void addNeighbour(GameObject neighbour, int index)
+    {
+        neighbours[(index / 9) % 3, (index/3)%3, index%3] = neighbour;
+    }
+
+    public void assignId(int newId)
+    {
+        id = newId;
     }
 }
