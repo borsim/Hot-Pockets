@@ -8,7 +8,6 @@ public class Zone : MonoBehaviour
     public Vector3 thermal = new Vector3(0, 0, 0);
     public Vector3 wind = new Vector3(0, 0, 0);
     public float tempTemperature = 0;
-    private Vector3 wind = new Vector3(0, 0, 0);
     public GameObject[,,] neighbours = new GameObject[3, 3, 3];
     public int id;
 
