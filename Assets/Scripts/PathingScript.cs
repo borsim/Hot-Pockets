@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class PathingScript : MonoBehaviour {
 
+  private Drone drone;
 
 
 	// Use this for initialization
 	void Start () {
-		
+		drone = GameObject.Find("ThermalDrone").GetComponent<Drone>() as Drone;
 	}
 	
 	// Update is called once per frame
@@ -16,14 +17,22 @@ public class PathingScript : MonoBehaviour {
 		
 	}
 
+  public List<Zone> getPathSequence(int startZoneIdentifier, int endZoneIdentifier) {
+    Zone sourZone = zones[startZoneIdentifier];
+    Zone destZone = zones[endZoneIdentifier];
+    List<Zone> path = dijkstra(sourZone, destZone); 
+
+    return path;
+  }
+
 	//Returns the shortest distance between two nodes - all edge weights are 1
-  private float dijkstra(Cube source, Cube destination)
+  private List<Zone> dijkstra(Zone source, Zone destination)
   {
-  	int numCubes = 20*20*20;
-  	float[] distances = new float[numCubes];
-  	DijkstraNode dSource = new DijkstraNode(1);
-  	DijkstraNode dDestination = new DijkstraNode(234);
-  	for (int i=0; i<numCubes; i++)
+  	int numZones = 20*20*20;
+  	float[] distances = new float[numZones];
+  	DijkstraNode dSource = new DijkstraNode(source.id);
+  	DijkstraNode dDestination = new DijkstraNode(destination.id);
+  	for (int i=0; i<numZones; i++)
   	{
   		distances[i] = Mathf.Infinity;
   	}
@@ -41,12 +50,12 @@ public class PathingScript : MonoBehaviour {
   		//Get all edges from the current node
   		Edge[] newEdges = new Edge[26];
   		////////////// TODO get current available edges
-  		// currentCube.getEdges();
+  		// currentZone.getEdges();
   		//Convert edge destinations to DijkstraNodes with the updated distance
   		foreach (Edge e in newEdges) {
   			DijkstraNode newDNode = new DijkstraNode(e.endIdentifier);
-  			// TODO add edge distance from model
-  			newDNode.distance = currentNode.distance + 1;
+  			newDNode.distance = currentNode.distance + drone.edgeCost(zones[currentNode.identifier], zones[newDNode.identifier]);
+        newDNode.previousNode = currentNode;
 
   			//Check if node in question has already been added into the search tree with a
   			//longer route. If yes, replace it with a shorter one
@@ -63,21 +72,27 @@ public class PathingScript : MonoBehaviour {
   			}
   		}
 
-  		//Pop the head node **TODO**
   		//Sort list
   		dijkstraNodes.Sort(new DijkstraNodeComparator());
   		currentNode = dijkstraNodes[0];
   		dijkstraNodes.Remove(currentNode);
-  		//currentNode = dijkstraNodes.Poll();
   	}
 
   	//Once the destionation node is currentNode, return the distance
-  	return currentNode.distance;
+    List<Zone> shortestPath = new List<Zone>();
+    DijkstraNode backwardsNode = currentNode;
+    while (backwardsNode != dSource) {
+      shortestPath.Add(zones[backwardsNode.identifier]);
+      backwardsNode = backwardsNode.previousNode;
+    }
+    List<Zone> revShortestPath = shortestPath.Reverse();
+  	return revShortestPath;
   }
 
   public class DijkstraNode : System.IEquatable<DijkstraNode>{
 		public float distance;
 		public int identifier;
+    public DijkstraNode previousNode;
 
 		public DijkstraNode(int initIdentifier) {
 			identifier = initIdentifier;

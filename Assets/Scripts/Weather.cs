@@ -8,8 +8,8 @@ public class Weather : MonoBehaviour
     public static int dimY = 3;
     public static int dimZ = 3;
 
-    public GameObject cube;
-    public GameObject[,,] cubes = new GameObject[dimX, dimY, dimZ];
+    public GameObject zone;
+    public GameObject[,,] zones = new GameObject[dimX, dimY, dimZ];
 
     // Start is called before the first frame update
     void Start()
@@ -18,8 +18,8 @@ public class Weather : MonoBehaviour
         for (int i = 0; i < dimX; i++){
             for (int j = 0; j < dimY; j++){
                 for (int k = 0; k < dimZ; k++){
-                    cubes[i, j, k] = Instantiate(cube, new Vector3(i, j, k), Quaternion.identity);
-                    cubes[i, j, k].GetComponent<Zone>().assignId(id);
+                    zones[i, j, k] = Instantiate(zone, new Vector3(i, j, k), Quaternion.identity);
+                    zones[i, j, k].GetComponent<Zone>().assignId(id);
                     id++;
                 }
             }
@@ -31,7 +31,7 @@ public class Weather : MonoBehaviour
             int a = (n / 9) % 3;
             int b = (n / 3) % 3;
             int c = n % 3;
-            GameObject current = cubes[a, b, c];
+            GameObject current = zones[a, b, c];
             for (int i = a-1; i < a+2; i++)
             {
                 for (int j = b-1; j < b+2; j++)
@@ -47,7 +47,7 @@ public class Weather : MonoBehaviour
                         }
                         else
                         {
-                            current.GetComponent<Zone>().addNeighbour(cubes[i, j, k], index);
+                            current.GetComponent<Zone>().addNeighbour(zones[i, j, k], index);
                         }
                         index++;
                     }
@@ -55,7 +55,7 @@ public class Weather : MonoBehaviour
             }
         }
 
-        GameObject centre = cubes[1, 1, 1];
+        GameObject centre = zones[1, 1, 1];
         for (int i = 0; i < dimX; i++)
         {
             for (int j = 0; j < dimX; j++)

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Zone : MonoBehaviour
 {
-    private Vector3 thermal = new Vector3(0, 0, 0);
-    private Vector3 wind = new Vector3(0, 0, 0);
+    public Vector3 thermal = new Vector3(0, 0, 0);
+    public Vector3 wind = new Vector3(0, 0, 0);
     public GameObject[,,] neighbours = new GameObject[3, 3, 3];
     public int id;
 

@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Drone : MonoBehaviour
 {
@@ -8,15 +8,18 @@ public class Drone : MonoBehaviour
 		private Vector3 gravity = new Vector3(0, -9.81f, 0);
 		private const float airResistance = 0.1f;
 		private const float droneWeight = 1.0f;
+		public const int startingZoneID = 123;
 
 
 		public bool usesThermals = true;
 		private float powerUsed;
-		private GameObject currentStart;
-		private GameObject currentEnd;
+		private Zone currentStart;
+		private Zone currentEnd;
 		private Rigidbody rb;
 		private bool finished;
-		//private  PathingScript pathingScript;
+		private  PathingScript pathingScript;
+		private List<Zone> path;
+		private int pathProgress;
 		private UIPowerTracker upt;
 
 
@@ -25,25 +28,32 @@ public class Drone : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>() as Rigidbody;
         finished = false;
         upt = GameObject.Find("Canvas").GetComponent<UIPowerTracker>() as UIPowerTracker;
-        //pathingScript = gameObject.GetComponent<PathingScript>() as PathingScript;
+        pathingScript = gameObject.GetComponent<PathingScript>() as PathingScript;
+        currentStart = zones[startingZoneID];
+        path = pathingScript.getPathSequence(startingZoneID, 567);
+        pathProgress = 0;
     }
 
     void Update() {
 
     	Vector3 movementNormal = Vector3.Normalize(currentEnd.transform.position - currentStart.transform.position);
     	Vector3 positionNormal = Vector3.Normalize(gameObject.transform.position - currentEnd.transform.position);
-    	bool nextCube = (movementNormal == positionNormal);
-    	if (nextCube && !finished) {
-    		currentStart = currentEnd;
-    		//currentEnd = pathingScript.getNextCube();
-    		if (currentEnd.transform.position == new Vector3(0, 0, 0)) finished = true;
+    	bool nextZone = (movementNormal == positionNormal);
+    	if (nextZone && !finished) {
+    		pathProgress += 1;
+    		if (pathProgress < path.Count) {
+					currentStart = currentEnd;
+    			currentEnd = path[pathProgress];
+    		}	else {
+    			finished = true;
+    		}
   		} 
   		// otherwise move in direction
   		else if (!finished){
   			// assuming: constant (drone maximum speed) speed
   			rb.velocity = movementNormal * maxSpeed;
   			// calculate air drag
-  			Vector3 dragForce = rb.velocity * airResistance;
+  			Vector3 dragForce = -(rb.velocity * airResistance);
   			// calculcate gravity
   			Vector3 gravityForce = gravity * droneWeight;
   			// sum vectors, calculate thrust
@@ -56,12 +66,34 @@ public class Drone : MonoBehaviour
 
   		}	
     }
-
-    Vector3 localWind() {
-    	return new Vector3(1,1,1);
+    public void reset(int newDestID) {
+    	currentStart = zones[startingZoneID];
+    	gameObject.transform.position = currentStart.transform.position;
+      path = pathingScript.getPathSequence(startingZoneID, newDestID);
+      pathProgress = 0;
+      finished = true;
     }
-    Vector3 localThermal() {
-    	return new Vector3(1,1,1);
+    public void launch() {
+    	finished = false;
+    }
+
+    public float edgeCost(Zone source, Zone dest) {
+  			// calculate air drag
+  			Vector3 dragForce = -(Vector3.Normalize(dest.transform.position - source.transform.position)) * (maxSpeed * airResistance);
+  			// calculcate gravity
+  			Vector3 gravityForce = gravity * droneWeight;
+  			// sum vectors, calculate thrust
+  			Vector3 enginePowerExpended = dragForce + gravityForce + localWind() + localThermal();
+  			float flyingTime = (source.transform.position - dest.transform.position).magnitude / maxSpeed;
+  			float cost = flyingTime * enginePowerExpended.magnitude;
+  			return cost;
+    }
+
+    private Vector3 localWind() {
+    	return currentStart.wind;
+    }
+    private Vector3 localThermal() {
+    	return currentStart.thermal;
     }
 
 }
