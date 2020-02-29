@@ -55,9 +55,9 @@ public class Weather : MonoBehaviour
                 }
             }
         }
-
-        GameObject centre = zones[1, 1, 1];
+        
         generateHeat();
+        generateWind(0);
     }
 
     // Update is called once per frame
@@ -107,6 +107,7 @@ public class Weather : MonoBehaviour
                     float alpha = 0f + zones[i, j, k].GetComponent<Zone>().temperature;
                     if (alpha > 0.5) alpha = 0.5f;
                     zones[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(1.0f, 0f, 0f, alpha);
+                    if (zones[i, j, k].GetComponent<Zone>().wind != new Vector3(0, 0, 0)) zones[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, 1.0f);
                 }
             }
         }
@@ -121,12 +122,16 @@ public class Weather : MonoBehaviour
                 switch (direction)
                 {
                     case 0:
+                        zones[i, j, 0].GetComponent<Zone>().wind.z = 1;
                         break;
                     case 1:
+                        zones[0, i, j].GetComponent<Zone>().wind.x = 1;
                         break;
                     case 2:
+                        zones[i, j, dimX].GetComponent<Zone>().wind.z = -1;
                         break;
                     case 3:
+                        zones[dimX, i, j].GetComponent<Zone>().wind.x = -1;
                         break;
                 }
             }
