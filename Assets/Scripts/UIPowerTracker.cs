@@ -11,7 +11,7 @@ public class UIPowerTracker : MonoBehaviour {
 	private RectTransform WTPowerBar;
 
 
-	private const float MAX_POWER_NUMBER = 500.0f;
+	private float MAX_POWER_NUMBER = 500.0f;
 	private const float MAX_BAR_HEIGHT = 200.0f;
 
 
@@ -29,6 +29,7 @@ public class UIPowerTracker : MonoBehaviour {
 	}
 
 	public void submitPowerUsage(float powerUsedThisRun, bool thermals) {
+        if (powerUsedThisRun * 1.2f >= MAX_POWER_NUMBER) MAX_POWER_NUMBER += 100;
 		if (thermals) {
 			WTPowerNumber.text = (Mathf.Round(powerUsedThisRun)).ToString();
 			WTPowerBar.sizeDelta = new Vector2(80f, (powerUsedThisRun / MAX_POWER_NUMBER) * MAX_BAR_HEIGHT);

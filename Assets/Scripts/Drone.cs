@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Drone : MonoBehaviour
 {
-		private float maxSpeed = 20.0f;
+		private float maxSpeed = 1.0f;
 		private Vector3 gravity = new Vector3(0, -9.81f, 0);
 		private const float airResistance = 0.1f;
 		private const float droneWeight = 10.0f;
@@ -38,22 +38,28 @@ public class Drone : MonoBehaviour
     }
 
     void Update() {
+        //direction from previous cube to cube
     	Vector3 movementNormal = Vector3.Normalize(currentEnd.transform.position - currentStart.transform.position);
-    	Vector3 positionNormal = Vector3.Normalize(gameObject.transform.position - currentEnd.transform.position);
-    	bool nextZone = (movementNormal == positionNormal);
+        //direction from drone to cube
+        Vector3 positionNormal = Vector3.Normalize(currentEnd.transform.position - gameObject.transform.position);
+
+        //Check if the calculated direction is over 180*
+        bool nextZone = (Vector3.Dot(movementNormal, positionNormal) <= 0); 
     	if (nextZone && !finished) {
     		pathProgress += 1;
-    		if (pathProgress < path.Count) {
-					currentStart = currentEnd;
+            if (pathProgress < path.Count) {
+			    currentStart = currentEnd;
     			currentEnd = path[pathProgress];
-    		}	else {
+    		}
+            else {
     			finished = true;
+                //Debug.Log("Finished!");
     		}
   		} 
   		// otherwise move in direction
   		else if (!finished){
-  			// assuming: constant (drone maximum speed) speed
-  			rb.velocity = movementNormal * maxSpeed;
+  			// assuming: constant (drone maximum speed) speed (got in direction of end cube)
+  			rb.velocity = positionNormal * maxSpeed;
   			// calculate air drag
   			Vector3 dragForce = -(rb.velocity * airResistance);
   			// calculcate gravity
@@ -70,24 +76,29 @@ public class Drone : MonoBehaviour
     } 
 
     public void reset(int newDestID) {
-    	currentStart = weather.zonesByID[startingZoneID];
-    	gameObject.transform.position = currentStart.transform.position;
-      path = pathingScript.getPathSequence(startingZoneID, newDestID);
-      pathProgress = 0;
-      powerUsed = 0.0f;
-      finished = true;
+        currentStart = weather.zonesByID[startingZoneID];
+        gameObject.transform.position = currentStart.transform.position;
+        path = pathingScript.getPathSequence(startingZoneID, newDestID, usesThermals);
+        pathProgress = 0;
+        powerUsed = 0.0f;
+        finished = true;
     }
     public void launch() {
     	finished = false;
+        currentEnd = path[pathProgress];
     }
 
-    public float edgeCost(Zone source, Zone dest) {
+    public float edgeCost(Zone source, Zone dest, bool thermals) {
   			// calculate air drag
   			Vector3 dragForce = -(Vector3.Normalize(dest.transform.position - source.transform.position)) * (maxSpeed * airResistance);
   			// calculcate gravity
   			Vector3 gravityForce = gravity * droneWeight;
-  			// sum vectors, calculate thrust
-  			Vector3 enginePowerExpended = dragForce + gravityForce + localWind() + localThermal();
+            // sum vectors, calculate thrust
+            Vector3 enginePowerExpended = dragForce + gravityForce;
+            if (thermals) {
+                    enginePowerExpended += localWind() + localThermal();
+            }
+            
   			float flyingTime = (source.transform.position - dest.transform.position).magnitude / maxSpeed;
   			float cost = flyingTime * enginePowerExpended.magnitude;
   			return cost;

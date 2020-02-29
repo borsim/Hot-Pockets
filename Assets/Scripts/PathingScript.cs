@@ -19,16 +19,16 @@ public class PathingScript : MonoBehaviour {
 		
 	}
 
-  public List<Zone> getPathSequence(int startZoneIdentifier, int endZoneIdentifier) {
+  public List<Zone> getPathSequence(int startZoneIdentifier, int endZoneIdentifier, bool thermals) {
     Zone sourZone = weather.zonesByID[startZoneIdentifier];
     Zone destZone = weather.zonesByID[endZoneIdentifier];
-    List<Zone> path = dijkstra(sourZone, destZone); 
+    List<Zone> path = dijkstra(sourZone, destZone, thermals); 
 
     return path;
   }
 
 	//Returns the shortest distance between two nodes - all edge weights are 1
-  private List<Zone> dijkstra(Zone source, Zone destination)
+  private List<Zone> dijkstra(Zone source, Zone destination, bool thermals)
   {
   	int numZones = 20*20*20;
   	float[] distances = new float[numZones];
@@ -65,7 +65,7 @@ public class PathingScript : MonoBehaviour {
       }
   		foreach (GameObject n in flatNeigh) {
         Zone newZone = n.GetComponent<Zone>() as Zone;
-        float edgeCost = drone.edgeCost(weather.zonesByID[currentNode.identifier], weather.zonesByID[newZone.id]);
+        float edgeCost = drone.edgeCost(weather.zonesByID[currentNode.identifier], weather.zonesByID[newZone.id], thermals);
         Edge newEdge = new Edge(currentNode.identifier, newZone.id, edgeCost);
         newEdges.Add(newEdge);
       }
