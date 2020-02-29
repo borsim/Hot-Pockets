@@ -34,9 +34,9 @@ public class Zone : MonoBehaviour
 
     public void spreadHeat()
     {
-        float l0 = temperature * 0.1f;
-        float[] levels = {temperature * 0.005f, temperature * 0.0185f, temperature * 0.025f};
-        float l4 = temperature * 0.01f;
+        float l0 = temperature * 0.2f;
+        float[] levels = {temperature * 0.00925f, temperature * 0.0025f, temperature * 0.0125f};
+        float l4 = temperature * 0.005f;
 
         if (neighbours[(10 / 9) % 3, (10 / 3) % 3, 10 % 3] != null) neighbours[(10 / 9) % 3, (10 / 3) % 3, 10 % 3].GetComponent<Zone>().addHeat(l4);
         if (neighbours[(16 / 9) % 3, (16 / 3) % 3, 16 % 3] != null) neighbours[(16 / 9) % 3, (16 / 3) % 3, 16 % 3].GetComponent<Zone>().addHeat(l0);

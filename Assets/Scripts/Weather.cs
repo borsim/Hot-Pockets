@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Weather : MonoBehaviour
 {
-    public static int dimX = 10;
-    public static int dimY = 10;
-    public static int dimZ = 10;
+    public static int dimX = 15;
+    public static int dimY = 15;
+    public static int dimZ = 15;
 
     public GameObject cube;
     public GameObject[,,] cubes = new GameObject[dimX, dimY, dimZ];
@@ -57,13 +57,12 @@ public class Weather : MonoBehaviour
         }
 
         generateHeat();
-        spreadHeat();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        spreadHeat();
     }
 
     void generateHeat()
@@ -71,7 +70,7 @@ public class Weather : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             int x = Random.Range(0, dimX);
-            int y = Random.Range(0, dimY);
+            int y = Random.Range(0, dimY/4);
             int z = Random.Range(0, dimZ);
             cubes[x, y, z].GetComponent<Zone>().temperature = 40;
             sources[i] = cubes[x, y, z];
@@ -82,6 +81,7 @@ public class Weather : MonoBehaviour
     {
         foreach (GameObject source in sources)
         {
+            source.GetComponent<Zone>().temperature = 40;
             source.GetComponent<Zone>().spreadHeat();
         }
 
@@ -91,8 +91,21 @@ public class Weather : MonoBehaviour
             {
                 for (int k = 0; k < dimZ; k++)
                 {
+                    cubes[i, j, k].GetComponent<Zone>().spreadHeat();
+                }
+            }
+        }
+
+        for (int i = 0; i < dimX; i++)
+        {
+            for (int j = 0; j < dimY; j++)
+            {
+                for (int k = 0; k < dimZ; k++)
+                {
                     cubes[i, j, k].GetComponent<Zone>().finaliseHeat();
-                    cubes[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(1.0f, 0f, 0f, 0f + cubes[i, j, k].GetComponent<Zone>().temperature);
+                    float alpha = 0f + cubes[i, j, k].GetComponent<Zone>().temperature;
+                    if (alpha > 0.5) alpha = 0.5f;
+                    cubes[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(1.0f, 0f, 0f, alpha);
                 }
             }
         }
