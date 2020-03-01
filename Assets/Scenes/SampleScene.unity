@@ -150,8 +150,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4954b55662e2b9348bdd6a161b1c5414, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!54 &860498663
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -178,8 +178,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8714c4a8c50d10c428fac33ed2077e64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   usesThermals: 0
 --- !u!4 &860498665
 Transform:
@@ -192,7 +192,7 @@ Transform:
   m_LocalPosition: {x: -4.5, y: 14.5, z: -44.5}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
-  - {fileID: 1586542398}
+  - {fileID: 1801980458}
   - {fileID: 1748523759}
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -512,7 +512,7 @@ Transform:
   m_LocalPosition: {x: 5.5, y: 14.5, z: -44.5}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
-  - {fileID: 1628206578}
+  - {fileID: 1236888399}
   - {fileID: 1788414438}
   - {fileID: 1371367426}
   m_Father: {fileID: 0}
@@ -528,8 +528,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4954b55662e2b9348bdd6a161b1c5414, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!54 &1273451161
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -556,8 +556,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8714c4a8c50d10c428fac33ed2077e64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   usesThermals: 1
 --- !u!1 &1371367423
 GameObject:
@@ -920,6 +920,12 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!4 &1801980458 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400002, guid: 2835cac63fadc744d8c62489af43e6d9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1586542397}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2085299784
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,8 +954,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -967,8 +973,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
@@ -1013,8 +1019,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18ff3fefc52f8d744ad4f5d32c047c3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   zone: {fileID: 2276355664332703032, guid: d74460870fd7e2e439b2b1a525413e33, type: 3}
   zonesByID:
   - {fileID: 0}

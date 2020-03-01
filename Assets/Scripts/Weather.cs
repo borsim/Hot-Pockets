@@ -7,6 +7,7 @@ public class Weather : MonoBehaviour
     public static int dimX = 15;
     public static int dimY = 15;
     public static int dimZ = 15;
+    public static int counter = 0;
     public GameObject zone;
     public GameObject[,,] zones = new GameObject[dimX, dimY, dimZ];
     public Zone[] zonesByID = new Zone[dimX * dimY * dimZ];
@@ -57,13 +58,19 @@ public class Weather : MonoBehaviour
         }
         
         generateHeat();
-        generateWind(0);
+        generateWind(3);
     }
 
     // Update is called once per frame
     void Update()
     {
-        spreadHeat();
+        if (counter % 10 == 0)
+        {
+            spreadHeat();
+            spreadWind();
+            counter = 0;
+        }
+        counter++;
     }
 
     void generateHeat()
@@ -107,7 +114,6 @@ public class Weather : MonoBehaviour
                     float alpha = 0f + zones[i, j, k].GetComponent<Zone>().temperature;
                     if (alpha > 0.5) alpha = 0.5f;
                     zones[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(1.0f, 0f, 0f, alpha);
-                    if (zones[i, j, k].GetComponent<Zone>().wind != new Vector3(0, 0, 0)) zones[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, 1.0f);
                 }
             }
         }
@@ -128,11 +134,49 @@ public class Weather : MonoBehaviour
                         zones[0, i, j].GetComponent<Zone>().wind.x = 1;
                         break;
                     case 2:
-                        zones[i, j, dimX].GetComponent<Zone>().wind.z = -1;
+                        zones[i, j, dimX-1].GetComponent<Zone>().wind.z = -1;
                         break;
                     case 3:
-                        zones[dimX, i, j].GetComponent<Zone>().wind.x = -1;
+                        zones[dimX-1, i, j].GetComponent<Zone>().wind.x = -1;
                         break;
+                }
+            }
+        }
+    }
+
+    void spreadWind()
+    {
+        for (int i = 0; i < dimX; i++)
+        {
+            for (int j = 0; j < dimY; j++)
+            {
+                for (int k = 0; k < dimZ; k++)
+                {
+                    zones[i, j, k].GetComponent<Zone>().spreadWind();
+                }
+            }
+        }
+
+        for (int i = 0; i < dimX; i++)
+        {
+            for (int j = 0; j < dimY; j++)
+            {
+                for (int k = 0; k < dimZ; k++)
+                {
+                    zones[i, j, k].GetComponent<Zone>().finaliseWind();
+                    if (zones[i, j, k].GetComponent<MeshRenderer>().material.color.a < 0.2f) {
+                        float alpha = Mathf.Abs(zones[i, j, k].GetComponent<Zone>().wind.x);
+                        if (alpha == 0.0f)
+                        {
+                            alpha = Mathf.Abs(zones[i, j, k].GetComponent<Zone>().wind.z);
+                        }
+
+                        if (alpha > 0.5f)
+                        {
+                            alpha = 0.5f;
+                        }
+                        if (zones[i, j, k].GetComponent<Zone>().wind != new Vector3(0, 0, 0)) zones[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, 1.0f, alpha);
+                    }
                 }
             }
         }
