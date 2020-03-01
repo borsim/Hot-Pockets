@@ -31,10 +31,10 @@ public class UIPowerTracker : MonoBehaviour {
 	public void submitPowerUsage(float powerUsedThisRun, bool thermals) {
 		if (thermals) {
 			WTPowerNumber.text = (Mathf.Round(powerUsedThisRun)).ToString();
-			WTPowerBar.sizeDelta = new Vector2(50f, (powerUsedThisRun / MAX_POWER_NUMBER) * MAX_BAR_HEIGHT);
+			WTPowerBar.sizeDelta = new Vector2(80f, (powerUsedThisRun / MAX_POWER_NUMBER) * MAX_BAR_HEIGHT);
 		} else {
 			WOPowerNumber.text = (Mathf.Round(powerUsedThisRun)).ToString();
-			WOPowerBar.sizeDelta = new Vector2(50f, (powerUsedThisRun / MAX_POWER_NUMBER) * MAX_BAR_HEIGHT);
+			WOPowerBar.sizeDelta = new Vector2(80f, (powerUsedThisRun / MAX_POWER_NUMBER) * MAX_BAR_HEIGHT);
 		}
 	}
 
