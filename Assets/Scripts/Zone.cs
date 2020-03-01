@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Zone : MonoBehaviour
 {
+    public bool terrain = false;
     public Vector3 thermal = new Vector3(0, 0, 0);
     public Vector3 wind = new Vector3(0, 0, 0);
     public float temperature = 0;
@@ -72,10 +73,58 @@ public class Zone : MonoBehaviour
 
     public void spreadWind()
     {
-        if (wind.z > 0 && neighbours[(14 / 9) % 3, (14 / 3) % 3, 14 % 3] != null) neighbours[(14 / 9) % 3, (14 / 3) % 3, 14 % 3].GetComponent<Zone>().addWind(0.8f * wind.z, 'z');
-        if (wind.z < 0 && neighbours[(12 / 9) % 3, (12 / 3) % 3, 12 % 3] != null) neighbours[(12 / 9) % 3, (12 / 3) % 3, 12 % 3].GetComponent<Zone>().addWind(0.8f * wind.z, 'z');
-        if (wind.x > 0 && neighbours[(22 / 9) % 3, (22 / 3) % 3, 22 % 3] != null) neighbours[(22 / 9) % 3, (22 / 3) % 3, 22 % 3].GetComponent<Zone>().addWind(0.8f * wind.x, 'x');
-        if (wind.x < 0 && neighbours[(4 / 9) % 3, (4 / 3) % 3, 4 % 3] != null) neighbours[(4 / 9) % 3, (4 / 3) % 3, 4 % 3].GetComponent<Zone>().addWind(0.8f * wind.x, 'x');
+        if (wind.z > 0 && neighbours[(14 / 9) % 3, (14 / 3) % 3, 14 % 3] != null)
+        {
+            if (!terrain) neighbours[(14 / 9) % 3, (14 / 3) % 3, 14 % 3].GetComponent<Zone>().addWind(0.8f * wind.z, 'z');
+            else
+            {
+                if (neighbours[(16 / 9) % 3, (16 / 3) % 3, 16 % 3] != null) neighbours[(16 / 9) % 3, (16 / 3) % 3, 16 % 3].GetComponent<Zone>().addWind(0.2f * wind.z, 'y');
+                if (neighbours[(10 / 9) % 3, (10 / 3) % 3, 10 % 3] != null) neighbours[(10 / 9) % 3, (10 / 3) % 3, 10 % 3].GetComponent<Zone>().addWind(-0.2f * wind.z, 'y');
+                if (neighbours[(22 / 9) % 3, (22 / 3) % 3, 22 % 3] != null) neighbours[(22 / 9) % 3, (22 / 3) % 3, 22 % 3].GetComponent<Zone>().addWind(0.2f * wind.z, 'x');
+                if (neighbours[(4 / 9) % 3, (4 / 3) % 3, 4 % 3] != null) neighbours[(4 / 9) % 3, (4 / 3) % 3, 4 % 3].GetComponent<Zone>().addWind(-0.2f * wind.z, 'x');
+            }
+        }
+        if (wind.z < 0 && neighbours[(12 / 9) % 3, (12 / 3) % 3, 12 % 3] != null)
+        {
+            if (!terrain) neighbours[(12 / 9) % 3, (12 / 3) % 3, 12 % 3].GetComponent<Zone>().addWind(0.8f * wind.z, 'z');
+            else
+            {
+                if (neighbours[(16 / 9) % 3, (16 / 3) % 3, 16 % 3] != null) neighbours[(16 / 9) % 3, (16 / 3) % 3, 16 % 3].GetComponent<Zone>().addWind(-0.2f * wind.z, 'y');
+                if (neighbours[(10 / 9) % 3, (10 / 3) % 3, 10 % 3] != null) neighbours[(10 / 9) % 3, (10 / 3) % 3, 10 % 3].GetComponent<Zone>().addWind(0.2f * wind.z, 'y');
+                if (neighbours[(4 / 9) % 3, (4 / 3) % 3, 4 % 3] != null) neighbours[(4 / 9) % 3, (4 / 3) % 3, 4 % 3].GetComponent<Zone>().addWind(0.2f * wind.z, 'x');
+                if (neighbours[(22 / 9) % 3, (22 / 3) % 3, 22 % 3] != null) neighbours[(22 / 9) % 3, (22 / 3) % 3, 22 % 3].GetComponent<Zone>().addWind(-0.2f * wind.z, 'x');
+            }
+        }
+        if (wind.y > 0 && neighbours[(16 / 9) % 3, (16 / 3) % 3, 16 % 3] != null)
+        {
+            if (!terrain) neighbours[(16 / 9) % 3, (16 / 3) % 3, 16 % 3].GetComponent<Zone>().addWind(0.8f * wind.y, 'y');
+        }
+        if (wind.y < 0 && neighbours[(10 / 9) % 3, (10 / 3) % 3, 10 % 3] != null)
+        {
+            if (!terrain) neighbours[(10 / 9) % 3, (10 / 3) % 3, 10 % 3].GetComponent<Zone>().addWind(0.8f * wind.y, 'y');
+        }
+        if (wind.x > 0 && neighbours[(22 / 9) % 3, (22 / 3) % 3, 22 % 3] != null)
+        {
+            if (!terrain) neighbours[(22 / 9) % 3, (22 / 3) % 3, 22 % 3].GetComponent<Zone>().addWind(0.8f * wind.x, 'x');
+            else
+            {
+                if (neighbours[(16 / 9) % 3, (16 / 3) % 3, 16 % 3] != null) neighbours[(16 / 9) % 3, (16 / 3) % 3, 16 % 3].GetComponent<Zone>().addWind(0.2f * wind.x, 'y');
+                if (neighbours[(10 / 9) % 3, (10 / 3) % 3, 10 % 3] != null) neighbours[(10 / 9) % 3, (10 / 3) % 3, 10 % 3].GetComponent<Zone>().addWind(-0.2f * wind.x, 'y');
+                if (neighbours[(12 / 9) % 3, (12 / 3) % 3, 12 % 3] != null) neighbours[(12 / 9) % 3, (12 / 3) % 3, 12 % 3].GetComponent<Zone>().addWind(-0.2f * wind.x, 'z');
+                if (neighbours[(14 / 9) % 3, (14 / 3) % 3, 14 % 3] != null) neighbours[(14 / 9) % 3, (14 / 3) % 3, 14 % 3].GetComponent<Zone>().addWind(0.2f * wind.x, 'z');
+            }
+        }
+        if (wind.x < 0 && neighbours[(4 / 9) % 3, (4 / 3) % 3, 4 % 3] != null)
+        {
+            if (!terrain) neighbours[(4 / 9) % 3, (4 / 3) % 3, 4 % 3].GetComponent<Zone>().addWind(0.8f * wind.x, 'x');
+            else
+            {
+                if (neighbours[(16 / 9) % 3, (16 / 3) % 3, 16 % 3] != null) neighbours[(16 / 9) % 3, (16 / 3) % 3, 16 % 3].GetComponent<Zone>().addWind(-0.2f * wind.x, 'y');
+                if (neighbours[(10 / 9) % 3, (10 / 3) % 3, 10 % 3] != null) neighbours[(10 / 9) % 3, (10 / 3) % 3, 10 % 3].GetComponent<Zone>().addWind(0.2f * wind.x, 'y');
+                if (neighbours[(12 / 9) % 3, (12 / 3) % 3, 12 % 3] != null) neighbours[(12 / 9) % 3, (12 / 3) % 3, 12 % 3].GetComponent<Zone>().addWind(0.2f * wind.x, 'z');
+                if (neighbours[(14 / 9) % 3, (14 / 3) % 3, 14 % 3] != null) neighbours[(14 / 9) % 3, (14 / 3) % 3, 14 % 3].GetComponent<Zone>().addWind(-0.2f * wind.x, 'z');
+            }
+        }
     }
 
     public void addWind(float increase, char dir)
@@ -84,6 +133,9 @@ public class Zone : MonoBehaviour
         {
             case 'x':
                 tempWind.x = increase;
+                break;
+            case 'y':
+                tempWind.y = increase;
                 break;
             case 'z':
                 tempWind.z = increase;

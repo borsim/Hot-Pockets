@@ -56,9 +56,10 @@ public class Weather : MonoBehaviour
                 }
             }
         }
-        
+
+        generateTerrain();
         generateHeat();
-        generateWind(3);
+        generateWind(0);
     }
 
     // Update is called once per frame
@@ -113,6 +114,7 @@ public class Weather : MonoBehaviour
                     zones[i, j, k].GetComponent<Zone>().finaliseHeat();
                     float alpha = 0f + zones[i, j, k].GetComponent<Zone>().temperature;
                     if (alpha > 0.5) alpha = 0.5f;
+                    if (zones[i, j, k].GetComponent<Zone>().terrain) alpha = 0f;
                     zones[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(1.0f, 0f, 0f, alpha);
                 }
             }
@@ -165,20 +167,21 @@ public class Weather : MonoBehaviour
                 {
                     zones[i, j, k].GetComponent<Zone>().finaliseWind();
                     if (zones[i, j, k].GetComponent<MeshRenderer>().material.color.a < 0.2f) {
-                        float alpha = Mathf.Abs(zones[i, j, k].GetComponent<Zone>().wind.x);
-                        if (alpha == 0.0f)
-                        {
-                            alpha = Mathf.Abs(zones[i, j, k].GetComponent<Zone>().wind.z);
-                        }
-
-                        if (alpha > 0.5f)
-                        {
-                            alpha = 0.5f;
-                        }
+                        float alpha = Mathf.Abs(zones[i, j, k].GetComponent<Zone>().wind.magnitude);
+                        if (alpha > 0.5f) alpha = 0.5f;
+                        if (zones[i, j, k].GetComponent<Zone>().terrain) alpha = 0f;
                         if (zones[i, j, k].GetComponent<Zone>().wind != new Vector3(0, 0, 0)) zones[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, 1.0f, alpha);
                     }
                 }
             }
+        }
+    }
+
+    void generateTerrain()
+    {
+        for (int i = 0; i < dimY; i++)
+        {
+            zones[7, i, 7].GetComponent<Zone>().terrain = true;
         }
     }
 }
