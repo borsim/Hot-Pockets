@@ -67,13 +67,12 @@ public class Weather : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (counter % 10 == 0)
+        if (counter < dimX)
         {
             spreadHeat();
             spreadWind();
-            counter = 0;
+            counter++;
         }
-        counter++;
     }
 
     void generateHeat()
