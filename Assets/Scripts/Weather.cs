@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Weather : MonoBehaviour
 {
-    public static int dimX = 15;
-    public static int dimY = 15;
-    public static int dimZ = 15;
+    public static int dimX = 25;
+    public static int dimY = 25;
+    public static int dimZ = 25;
     public static int counter = 0;
     public GameObject zone;
     public GameObject[,,] zones = new GameObject[dimX, dimY, dimZ];
@@ -21,7 +21,9 @@ public class Weather : MonoBehaviour
                 for (int k = 0; k < dimZ; k++){
                     zones[i, j, k] = Instantiate(zone, new Vector3(i, j, k), Quaternion.identity);
                     zones[i, j, k].GetComponent<Zone>().assignId(id);
-                    zonesByID[id] = zones[i, j ,k].GetComponent<Zone>();
+                    Debug.Log(id);
+                    Zone zoneNew = zones[i, j, k].GetComponent<Zone>();
+                    zonesByID[id] = zoneNew;
                     id++;
                 }
             }
