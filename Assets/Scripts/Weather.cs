@@ -77,6 +77,7 @@ public class Weather : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
+            Random.InitState(69);
             int x = Random.Range(0, dimX);
             int y = Random.Range(0, dimY/4);
             int z = Random.Range(0, dimZ);
