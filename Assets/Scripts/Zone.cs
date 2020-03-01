@@ -9,6 +9,7 @@ public class Zone : MonoBehaviour
     public Vector3 wind = new Vector3(0, 0, 0);
     public float temperature = 0;
     public float tempTemperature = 0;
+    public Vector3 tempWind = new Vector3(0, 0, 0);
     public GameObject[,,] neighbours = new GameObject[3, 3, 3];
     public int id;
 
@@ -67,5 +68,35 @@ public class Zone : MonoBehaviour
         temperature += tempTemperature;
         thermal.y = temperature;
         tempTemperature = 0;
+    }
+
+    public void spreadWind()
+    {
+        if (wind.z > 0 && neighbours[(14 / 9) % 3, (14 / 3) % 3, 14 % 3] != null) neighbours[(14 / 9) % 3, (14 / 3) % 3, 14 % 3].GetComponent<Zone>().addWind(0.8f * wind.z, 'z');
+        if (wind.z < 0 && neighbours[(12 / 9) % 3, (12 / 3) % 3, 12 % 3] != null) neighbours[(12 / 9) % 3, (12 / 3) % 3, 12 % 3].GetComponent<Zone>().addWind(0.8f * wind.z, 'z');
+        if (wind.x > 0 && neighbours[(22 / 9) % 3, (22 / 3) % 3, 22 % 3] != null) neighbours[(22 / 9) % 3, (22 / 3) % 3, 22 % 3].GetComponent<Zone>().addWind(0.8f * wind.x, 'x');
+        if (wind.x < 0 && neighbours[(4 / 9) % 3, (4 / 3) % 3, 4 % 3] != null) neighbours[(4 / 9) % 3, (4 / 3) % 3, 4 % 3].GetComponent<Zone>().addWind(0.8f * wind.x, 'x');
+    }
+
+    public void addWind(float increase, char dir)
+    {
+        switch (dir)
+        {
+            case 'x':
+                tempWind.x = increase;
+                break;
+            case 'z':
+                tempWind.z = increase;
+                break;
+        }
+    }
+
+    public void finaliseWind()
+    {   
+        if(tempWind != new Vector3(0, 0, 0))
+        {
+            wind = tempWind;
+            tempWind = new Vector3(0, 0, 0);
+        }
     }
 }
