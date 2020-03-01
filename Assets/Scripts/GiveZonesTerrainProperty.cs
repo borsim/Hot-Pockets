@@ -15,12 +15,12 @@ public class GiveZonesTerrainProperty : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("Collision!!");
+        //Debug.Log("Collision!!");
         Zone collidedZone = collision.gameObject.GetComponent<Zone>() as Zone;
         if (collidedZone)
         {
             collidedZone.terrain = true;
-            Debug.Log("Terrain!");
+            //Debug.Log("Terrain!");
         }
     }
 }
