@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Weather : MonoBehaviour
 {
-    public static int dimX = 15;
-    public static int dimY = 15;
-    public static int dimZ = 15;
+    public static int dimX = 25;
+    public static int dimY = 25;
+    public static int dimZ = 25;
     public static int counter = 0;
     public GameObject zone;
     public GameObject[,,] zones = new GameObject[dimX, dimY, dimZ];

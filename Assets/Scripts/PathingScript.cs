@@ -30,7 +30,7 @@ public class PathingScript : MonoBehaviour {
 	//Returns the shortest distance between two nodes - all edge weights are 1
   private List<Zone> dijkstra(Zone source, Zone destination, bool thermals)
   {
-  	int numZones = 20*20*20;
+  	int numZones = 25*25*25;
   	float[] distances = new float[numZones];
   	DijkstraNode dSource = new DijkstraNode(source.id);
   	DijkstraNode dDestination = new DijkstraNode(destination.id);
