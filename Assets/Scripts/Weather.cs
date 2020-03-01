@@ -21,7 +21,7 @@ public class Weather : MonoBehaviour
                 for (int k = 0; k < dimZ; k++){
                     zones[i, j, k] = Instantiate(zone, new Vector3(i, j, k), Quaternion.identity);
                     zones[i, j, k].GetComponent<Zone>().assignId(id);
-                    Debug.Log(id);
+                    //Debug.Log(id);
                     Zone zoneNew = zones[i, j, k].GetComponent<Zone>();
                     zonesByID[id] = zoneNew;
                     id++;
