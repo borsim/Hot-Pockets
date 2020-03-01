@@ -106,5 +106,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56036402c5e6aca4093ac50ce8a46ae9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  terrain: 0
+  thermal: {x: 0, y: 0, z: 0}
+  wind: {x: 0, y: 0, z: 0}
+  temperature: 0
   tempTemperature: 0
+  tempWind: {x: 0, y: 0, z: 0}
+  reboundWind: {x: 0, y: 0, z: 0}
   id: 0

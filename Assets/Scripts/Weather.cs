@@ -182,7 +182,14 @@ public class Weather : MonoBehaviour
     {
         for (int i = 0; i < dimY; i++)
         {
-            zones[7, i, 7].GetComponent<Zone>().terrain = true;
+            for(int j = 0; j < 5; j++)
+            {
+                for(int k = 0; k < 5; k++)
+                {
+
+                    zones[5+j, i, 5+k].GetComponent<Zone>().terrain = true;
+                }
+            }
         }
     }
 }
