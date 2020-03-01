@@ -59,7 +59,6 @@ public class Weather : MonoBehaviour
             }
         }
 
-        generateTerrain();
         generateHeat();
         generateWind(0);
     }
@@ -115,9 +114,14 @@ public class Weather : MonoBehaviour
                 {
                     zones[i, j, k].GetComponent<Zone>().finaliseHeat();
                     float alpha = 0f + zones[i, j, k].GetComponent<Zone>().temperature;
-                    if (alpha > 0.5) alpha = 0.5f;
+                    if (alpha > 0.5f) alpha = 0.5f;
                     if (zones[i, j, k].GetComponent<Zone>().terrain) alpha = 0f;
                     zones[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(1.0f, 0f, 0f, alpha);
+                    if (alpha > 0.1f)
+                    {
+                        zones[i, j, k].GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.red * 0.4f);
+                        zones[i, j, k].GetComponent<MeshRenderer>().material.EnableKeyword("_EMISSION");
+                    }
                 }
             }
         }
@@ -174,21 +178,6 @@ public class Weather : MonoBehaviour
                         if (zones[i, j, k].GetComponent<Zone>().terrain) alpha = 0f;
                         if (zones[i, j, k].GetComponent<Zone>().wind != new Vector3(0, 0, 0)) zones[i, j, k].GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, 1.0f, alpha);
                     }
-                }
-            }
-        }
-    }
-
-    void generateTerrain()
-    {
-        for (int i = 0; i < dimY; i++)
-        {
-            for(int j = 0; j < 5; j++)
-            {
-                for(int k = 0; k < 5; k++)
-                {
-
-                    zones[5+j, i, 5+k].GetComponent<Zone>().terrain = true;
                 }
             }
         }
