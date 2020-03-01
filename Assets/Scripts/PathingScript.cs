@@ -65,9 +65,11 @@ public class PathingScript : MonoBehaviour {
       }
   		foreach (GameObject n in flatNeigh) {
         Zone newZone = n.GetComponent<Zone>() as Zone;
-        float edgeCost = drone.edgeCost(weather.zonesByID[currentNode.identifier], weather.zonesByID[newZone.id], thermals);
-        Edge newEdge = new Edge(currentNode.identifier, newZone.id, edgeCost);
-        newEdges.Add(newEdge);
+        if (newZone.terrain == false) {
+          float edgeCost = drone.edgeCost(weather.zonesByID[currentNode.identifier], weather.zonesByID[newZone.id], thermals);
+          Edge newEdge = new Edge(currentNode.identifier, newZone.id, edgeCost);
+          newEdges.Add(newEdge);
+        }
       }
   		//Convert edge destinations to DijkstraNodes with the updated distance
   		foreach (Edge e in newEdges) {
