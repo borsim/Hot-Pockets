@@ -11,7 +11,7 @@ public class PathingScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		drone = GameObject.Find("ThermalDrone").GetComponent<Drone>() as Drone;
-    weather = GameObject.Find("Weather").GetComponent<Weather>() as Weather;
+        weather = GameObject.Find("Weather").GetComponent<Weather>() as Weather;
 	}
 	
 	// Update is called once per frame
